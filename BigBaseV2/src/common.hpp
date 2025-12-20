@@ -54,7 +54,7 @@
 #include "script.hpp"
 
 #include "UI/settings.hpp"
-
+#include "../xorstr.h"
 namespace big
 {
 	using namespace std::chrono_literals;
