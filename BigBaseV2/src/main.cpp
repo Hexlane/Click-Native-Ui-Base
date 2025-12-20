@@ -1,4 +1,4 @@
-﻿#include "common.hpp"
+#include "common.hpp"
 #include "fiber_pool.hpp"
 #include "gui.hpp"
 #include "logger.hpp"
@@ -14,6 +14,7 @@
 #include "../input.hpp"
 #include "Backend/Backend.hpp"
 #include "hooking/native/native_hooks.hpp"
+#include "../Features.hpp"
 
 BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 {
@@ -48,7 +49,7 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				auto fiber_pool_instance = std::make_unique<fiber_pool>(10);
 				auto hooking_instance = std::make_unique<hooking>();
 				LOG(INFO) << "Components initialized.";
-
+				g_script_mgr.add_script(std::make_unique<script>(&features::script_func));
 				g_script_mgr.add_script(std::make_unique<script>(&gui::script_func));
 				LOG(INFO) << "Scripts registered.";
 
