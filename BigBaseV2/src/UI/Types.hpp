@@ -127,7 +127,33 @@ namespace big
 		NativeVector3() = default;
 		NativeVector3(float x, float y, float z) :
 			x(x), y(y), z(z)
-		{}
+		{
+		}
+
+		NativeVector3 operator*(const float& scale)
+		{
+			x *= scale;
+			y *= scale;
+			z *= scale;
+			return *this;
+		}
+
+		NativeVector3 operator+(const NativeVector3& vec)
+		{
+			x += vec.x;
+			y += vec.y;
+			z += vec.z;
+			return *this;
+		}
+
+		NativeVector3 operator-(const NativeVector3& vec)
+		{
+			x -= vec.x;
+			y -= vec.y;
+			z -= vec.z;
+			return *this;
+		}
+
 	public:
 		float x{};
 	private:
@@ -144,11 +170,113 @@ namespace big
 #pragma pack(pop)
 
 #pragma pack(push, 1)
-	struct Vector3
-	{
-		float x{};
-		float y{};
-		float z{};
+	template<typename T>
+	struct vector3 {
+		T x;
+		DWORD AAAAA;
+		T y;
+		DWORD BBBBB;
+		T z;
+		DWORD CCCCC;
+
+		vector3<T>() {}
+
+		vector3<T>(T in_x, T in_y, T in_z)
+			: x(in_x), y(in_y), z(in_z) {
+		}
+
+		vector3<T> operator*(float value) {
+			return vector3<T>(x * value, y * value, z * value);
+		}
+
+		vector3<T> operator*=(float value) {
+			return vector3<T>(x * value, y * value, z * value);
+		}
+
+		vector3<T> operator*(vector3<T>& value) {
+			return vector3<T>(x * value.x, y * value.y, z * value.z);
+		}
+
+		vector3<T> operator+=(vector3<T>& value) {
+			return vector3<T>(x + value.x, y + value.y, z + value.z);
+		}
+
+		vector3<T> operator-(float value) {
+			return vector3<T>(x - value, y - value, z - value);
+		}
+
+		vector3<T> operator-=(float value) {
+			return vector3<T>(x - value, y - value, z - value);
+		}
+
+		vector3<T> operator-(vector3<T>& value) {
+			return vector3<T>(x - value.x, y - value.y, z - value.z);
+		}
+
+		vector3<T> operator+(float value) {
+			return vector3<T>(x + value, y + value, z + value);
+		}
+
+		vector3<T> operator+=(float value) {
+			return vector3<T>(x + value, y + value, z + value);
+		}
+
+		vector3<T> operator-=(vector3<T>& value) {
+			return vector3<T>(x - value.x, y - value.y, z - value.z);
+		}
+
+		vector3<T> operator+(vector3<T>& value) {
+			return vector3<T>(x + value.x, y + value.y, z + value.z);
+		}
+
+		vector3<T> operator/(float value) {
+			if (value == 0.f || x == 0 || y == 0 || z == 0) return vector3<T>(0, 0);
+			return vector3<T>(x / value, y / value, z / value);
+		}
+
+		vector3<T> operator/=(float value) {
+			if (value == 0.f || x == 0 || y == 0) return vector3<T>(0, 0);
+			return vector3<T>(x / value, y / value, z / value);
+		}
+
+		vector3<T> operator/(vector3<T>& value) {
+			return vector3<T>(x / value.x, y / value.y, z / value.z);
+		}
+
+		bool operator==(vector3<T>& value) {
+			return x == value.x && y == value.y && z == value.z;
+		}
+
+		float get_distance(vector3<T> value) {
+			return ((float)sqrt(pow(value.x - x, 2) + pow(value.y - y, 2) * 1.0));
+		}
+
+		bool is_null() {
+			return (x == fabs(0.0f) && y == fabs(0.0f) && z == fabs(0.0f));
+		}
+
+		float get_2d_distance() {
+			return (float)sqrt((x * x) + (z * z));
+		}
+
+		float get_length() {
+			return (float)sqrt((x * x) + (y * y) + (z * z));
+		}
+
+		void normalize() {
+			float Length = get_length();
+			x /= Length;
+			y /= Length;
+			z /= Length;
+		}
+
+		static vector3<T> to_serialized(vector3<T> value) {
+			return vector3<T>(value.x, value.y, value.z);
+		}
+
+		float dot(vector3<T> value) {
+			return (x * x + y * y + z * z);
+		}
 	};
 #pragma pack(pop)
 
