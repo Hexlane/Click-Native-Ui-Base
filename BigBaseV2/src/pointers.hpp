@@ -54,8 +54,10 @@ namespace big
 		PVOID m_model_spawn_bypass;
         const char* online_version{};
         const char* build_version{};
+        void* game_logos{};
+        void* game_license{};
 	};
-
 	inline pointers *g_pointers{};
 }
+
 
