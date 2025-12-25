@@ -52,7 +52,10 @@ namespace big
 		IDXGISwapChain **m_swapchain{};
 
 		PVOID m_model_spawn_bypass;
+        const char* online_version{};
+        const char* build_version{};
 	};
 
 	inline pointers *g_pointers{};
 }
+
