@@ -66,6 +66,12 @@ namespace big
 		{
 			m_model_spawn_bypass = ptr.add(8).as<PVOID>();
 		});
+		
+		main_batch.add("OBV", "4C 8D 05 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B C8 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8D 4C 24 20 E8", [this](memory::handle ptr)
+		{
+			online_version = ptr.add(3).rip().as<const char*>();
+			build_version = ptr.sub(165).rip().as<const char*>();
+		});
 
 		main_batch.run(memory::module(nullptr));
 
@@ -81,3 +87,4 @@ namespace big
 		g_pointers = nullptr;
 	}
 }
+
