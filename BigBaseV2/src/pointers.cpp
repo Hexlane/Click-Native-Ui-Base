@@ -73,7 +73,21 @@ namespace big
 			build_version = ptr.sub(165).rip().as<const char*>();
 		});
 
+		main_batch.add("GL", "70 6C 61 74 66 6F 72 6D 3A 2F 6D 6F 76 69 65 73 2F 72 6F 63", [this](memory::handle ptr)
+			{
+				game_logos = ptr.as<void*>();
+		});
+
+		main_batch.add("GLI", "72 1F E8 ? ? ? ? 8B 0D", [this](memory::handle ptr)
+			{
+				game_license = ptr.as<void*>();
+		 });
+		
+
 		main_batch.run(memory::module(nullptr));
+		uint8_t value = 0xC3;
+		memcpy(pointers::game_logos, &value, sizeof(value));
+		memset(pointers::game_license, 0x90, 2);
 
 		m_hwnd = FindWindowW(L"grcWindow", nullptr);
 		if (!m_hwnd)
@@ -87,4 +101,5 @@ namespace big
 		g_pointers = nullptr;
 	}
 }
+
 
